@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-
-from Product.models import Product
+from django.shortcuts import  redirect
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 
 def login_view(request):
@@ -13,20 +13,10 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect("/")
+            return redirect("dashboard")
         return render(request, "auth\login.html", {"error": "Username yoki password noto‘g‘ri"})
 
     return render(request, "auth\login.html")
-
-
-from django.contrib.auth.models import User
-from django.contrib.auth import login
-from django.shortcuts import render, redirect
-
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
-
 
 def login_view(request):
     if request.method == "POST":
@@ -36,7 +26,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            return redirect("/")
+            return redirect("dashboard")
         return render(request, "auth/login.html", {
             "error": "Username yoki parol noto‘g‘ri"
         })
@@ -76,12 +66,8 @@ def logout_view(request):
 
 
 
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-# from .models import Product
 
-from django.shortcuts import render
-from Product.models import Product  # sizda app nomi Product bo‘lsa
+
 
 def dashboard(request):
     category = request.GET.get("category")
@@ -95,9 +81,9 @@ def dashboard(request):
         "cart_count": 0,  # sizda savat count boshqa joydan kelsa, o‘sha logikani qo‘ying
     })
 
-from django.shortcuts import render
-from django.db.models import Q
-from Product.models import Product  # Product qayerda bo'lsa o'sha importni qiling
+
+
+
 
 
 def search_view(request):
@@ -106,7 +92,7 @@ def search_view(request):
 
     qs = Product.objects.all()
 
-    # ixtiyoriy: faqat aktivlar (agar is_active bo'lsa)
+
     if hasattr(Product, "is_active"):
         qs = qs.filter(is_active=True)
 
