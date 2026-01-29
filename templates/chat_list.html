@@ -1,0 +1,33 @@
+{% extends "dashboard.html" %}
+
+{% block title %}Chat{% endblock %}
+
+{% block content %}
+<div class="block">
+  <div class="block__head">
+    <h3>Suhbatlar</h3>
+  </div>
+
+  {% if conversations %}
+    <div class="chatlist">
+      {% for c in conversations %}
+        <a class="chatrow" href="{% url 'chat_detail' c.id %}">
+          <div class="chatrow__left">
+            <div class="chatrow__title">{{ c.product.title }}</div>
+            <div class="chatrow__meta">
+              {% if request.user == c.seller %}
+                Xaridor: {{ c.buyer.username }}
+              {% else %}
+                Sotuvchi: {{ c.seller.username }}
+              {% endif %}
+            </div>
+          </div>
+          <div class="chatrow__right">➡</div>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div style="opacity:.75;">Hozircha chat yo‘q.</div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "dashboard.html" %}
+
+{% block title %}Chat{% endblock %}
+
+{% block content %}
+<div class="block">
+  <div class="block__head">
+    <h3>{{ conv.product.title }}</h3>
+  </div>
+
+  <div class="chatbox2">
+    {% for m in messages %}
+      <div class="msg {% if m.sender == request.user %}msg--me{% else %}msg--you{% endif %}">
+        <div class="msg__text">{{ m.text }}</div>
+        <div class="msg__time">{{ m.created_at|date:"H:i" }}</div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <form method="post" class="chatinput">
+    {% csrf_token %}
+    <input name="text" placeholder="Xabar yozing..." autocomplete="off">
+    <button class="btn btn--red" type="submit">Yuborish</button>
+  </form>
+</div>
+{% endblock %}

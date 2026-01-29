@@ -1,0 +1,13 @@
+<h2>Mening mahsulotlarim</h2>
+
+<a href="{% url 'product_create' %}">+ Yangi mahsulot</a>
+
+{% for p in products %}
+  <div>
+    <strong>{{ p.name }}</strong> — {{ p.price }} so‘m
+
+    <a href="{% url 'product_delete' p.id %}">❌ O‘chirish</a>
+  </div>
+{% empty %}
+  <p>Hozircha mahsulot yo‘q</p>
+{% endfor %}

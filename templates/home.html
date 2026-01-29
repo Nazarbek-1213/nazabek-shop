@@ -1,0 +1,26 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+  <div class="grid">
+    {% for p in products %}
+      <a class="card card--link" href="{% url 'product_detail' p.id %}">
+        {% if p.image %}
+          <img class="card__img" src="{{ p.image.url }}" alt="{{ p.title }}">
+        {% else %}
+          <div class="card__img"></div>
+        {% endif %}
+
+        <h3 class="card__title">{{ p.title }}</h3>
+        <div class="card__price">{{ p.price }}</div>
+
+        <div class="card__meta">
+          👤 {{ p.owner.username }}
+          <span style="opacity:.6;">•</span>
+          {{ p.created_at|date:"d M" }}
+        </div>
+      </a>
+    {% empty %}
+      <p>Hozircha e’lon yo‘q.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "dashboard.html" %}
+{% block sidebar %}{% endblock %}
+
+{% block content %}
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn btn--red">Saqlash</button>
+</form>
+{% endblock %}

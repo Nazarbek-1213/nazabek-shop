@@ -1,0 +1,55 @@
+{% extends "dashboard.html" %}
+{% block title %}Savat{% endblock %}
+
+{% block content %}
+<h3 style="margin-bottom:12px;">🛒 Savat</h3>
+
+{% if items %}
+  <div class="cart-list">
+    {% for i in items %}
+      <div class="card" style="margin-bottom:12px;">
+
+        <div style="display:flex; gap:12px; align-items:center;">
+          {% if i.product.image %}
+            <img src="{{ i.product.image.url }}"
+                 style="width:80px; height:80px; object-fit:cover; border-radius:10px;">
+          {% endif %}
+
+          <div style="flex:1;">
+            <h3 class="card__title">{{ i.product.title }}</h3>
+            <div class="card__price">{{ i.product.price }} so‘m</div>
+            <div class="card__meta">
+              Miqdor: {{ i.quantity }}
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <a href="{% url 'cart_add' i.product.id %}" class="btn btn--dark">➕</a>
+            <a href="{% url 'cart_decrease' i.id %}" class="btn btn--dark">➖</a>
+            <a href="{% url 'cart_remove' i.id %}" class="btn btn--red">❌</a>
+          </div>
+        </div>
+
+        <div style="margin-top:8px; font-weight:900;">
+          Jami: {{ i.total_price }} so‘m
+        </div>
+
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="form-card">
+    <h3>Umumiy summa</h3>
+    <div style="font-size:20px; font-weight:1000; color:var(--yellow);">
+      {{ total }} so‘m
+    </div>
+
+    <a href="#" class="btn btn--red" style="width:100%; margin-top:12px;">
+      💳 Buyurtma berish
+    </a>
+  </div>
+
+{% else %}
+  <p class="muted">Savat bo‘sh.</p>
+{% endif %}
+{% endblock %}

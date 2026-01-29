@@ -1,0 +1,66 @@
+{% extends "dashboard.html" %}
+{% block title %}Profil{% endblock %}
+{% block sidebar %}{% endblock %}
+
+{% block content %}
+<div class="profile">
+
+  <!-- LEFT -->
+  <aside class="profile-card">
+    <div class="avatar">
+      {% if user.profile.avatar %}
+        <img src="{{ user.profile.avatar.url }}">
+      {% else %}
+        <div class="avatar__ph">👤</div>
+      {% endif %}
+    </div>
+
+    <form method="post" enctype="multipart/form-data"
+          action="{% url 'profile_avatar_upload' %}">
+      {% csrf_token %}
+      <input type="file" name="avatar">
+      <button class="btn btn--red">Saqlash</button>
+    </form>
+
+    <p>📞 {{ user.profile.phone|default:"-" }}</p>
+    <p>📍 {{ user.profile.location|default:"-" }}</p>
+    {% if user.profile.tg_username %}
+      <a href="https://t.me/{{ user.profile.tg_username }}" target="_blank">
+        @{{ user.profile.tg_username }}
+      </a>
+    {% endif %}
+
+    <a class="btn btn--dark" href="{% url 'profile_edit' %}">Profilni tahrirlash</a>
+  </aside>
+
+  <!-- RIGHT -->
+  <section class="profile-main">
+    <h3>Mening e’lonlarim</h3>
+
+    {% if my_products %}
+      <div class="grid">
+        {% for p in my_products %}
+          <div class="card">
+            {% if p.image %}
+              <img class="card__img" src="{{ p.image.url }}">
+            {% endif %}
+            <h4>{{ p.title }}</h4>
+            <div>{{ p.price }} so‘m</div>
+
+            <a href="{% url 'product_detail' p.id %}">Ko‘rish</a>
+            <a href="{% url 'product_edit' p.id %}">Edit</a>
+
+            <form method="post" action="{% url 'product_delete' p.id %}">
+              {% csrf_token %}
+              <button>O‘chirish</button>
+            </form>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>E’lon yo‘q</p>
+    {% endif %}
+  </section>
+
+</div>
+{% endblock %}

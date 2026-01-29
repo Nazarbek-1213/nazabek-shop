@@ -1,0 +1,28 @@
+{% extends "dashboard.html" %}
+{% block title %}Sharhni o‘chirish{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width:700px;">
+  <div class="form-card">
+    <h3 style="margin-top:0;">🗑 Sharhni o‘chirish</h3>
+
+    <p style="opacity:.85;">Rostdan ham shu sharhni o‘chirmoqchimisiz?</p>
+    <div class="card" style="margin:12px 0;">
+      <div class="card__meta">{{ comment.created_at|date:"d M H:i" }}</div>
+      <div style="margin-top:8px;">{{ comment.text }}</div>
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+      <div style="display:flex; gap:10px;">
+        <a class="btn btn--dark" href="{% url 'product_detail' comment.product_id %}" style="flex:1; justify-content:center;">
+          Bekor
+        </a>
+        <button class="btn btn--red" style="flex:1; justify-content:center;">
+          Ha, o‘chirish
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

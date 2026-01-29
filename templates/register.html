@@ -1,0 +1,41 @@
+{% extends "auth/base_auth.html" %}
+{% block title %}Register | Nazarbek Market{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+  <div class="auth-card">
+
+    <div class="brand-logo">
+      <div class="m">M</div>
+      <div class="n">N</div>
+    </div>
+
+    <h1 class="auth-title">Welcome Nazarbek Market</h1>
+    <p class="auth-subtitle">Ro‘yxatdan o‘tish</p>
+
+    {% if error %}
+      <div class="auth-error">{{ error }}</div>
+    {% endif %}
+
+    <form method="post" class="auth-form">
+      {% csrf_token %}
+      <label>Username</label>
+      <input type="text" name="username" required>
+
+      <label>Password</label>
+      <input type="password" name="password" required>
+
+      <label>Password again</label>
+      <input type="password" name="password2" required>
+
+      <button class="auth-btn" type="submit">Register</button>
+    </form>
+
+    <div class="auth-meta">
+      Akkauntingiz bormi?
+      <a href="{% url 'login' %}">Login</a>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

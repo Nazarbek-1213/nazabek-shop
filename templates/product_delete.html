@@ -1,0 +1,45 @@
+{% extends "dashboard.html" %}
+{% block title %}E’lonni o‘chirish{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width:600px;">
+
+  <div class="form-card">
+    <h2 style="margin-bottom:12px;">❌ E’lonni o‘chirish</h2>
+
+    <p style="opacity:.85; margin-bottom:16px;">
+      <strong>{{ product.title }}</strong> nomli e’lonni o‘chirmoqchimisiz?
+      <br>
+      Bu amalni qaytarib bo‘lmaydi.
+    </p>
+
+    <div class="card" style="margin-bottom:16px;">
+      {% if product.image %}
+        <img class="card__img" src="{{ product.image.url }}" alt="">
+      {% endif %}
+      <h3 class="card__title">{{ product.title }}</h3>
+      <div class="card__price">{{ product.price }} so‘m</div>
+      <div class="card__meta">
+        📅 {{ product.created_at|date:"d M Y" }}
+      </div>
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+
+      <div style="display:flex; gap:10px;">
+        <a href="{% url 'profile' %}" class="btn btn--dark" style="flex:1; justify-content:center;">
+          Bekor qilish
+        </a>
+
+        <button type="submit"
+                class="btn btn--red"
+                style="flex:1; justify-content:center;">
+          Ha, o‘chirish
+        </button>
+      </div>
+    </form>
+  </div>
+
+</div>
+{% endblock %}

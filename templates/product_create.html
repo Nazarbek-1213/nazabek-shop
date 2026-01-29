@@ -1,0 +1,65 @@
+{% extends "dashboard.html" %}
+{% block title %}E’lon berish{% endblock %}
+
+{% block content %}
+<div class="form-card">
+  <h2 style="margin:0 0 12px;">E’lon berish</h2>
+
+  <form method="post" enctype="multipart/form-data" class="form-grid">
+    {% csrf_token %}
+
+    <div class="field">
+      <label>Sarlavha</label>
+      {{ form.title }}
+    </div>
+
+    <div class="field">
+      <label>Narx</label>
+      {{ form.price }}
+    </div>
+
+    <div class="field">
+      <label>Kategoriya</label>
+      {{ form.category }}
+    </div>
+
+    <div class="field">
+      <label>Telefon (hozircha UI)</label>
+      <input type="tel" placeholder="+998 90 123 45 67">
+    </div>
+
+    <div class="field field--full">
+      <label>Tavsif</label>
+      {{ form.description }}
+    </div>
+
+    <div class="field field--full">
+      <label>Rasm</label>
+      {{ form.image }}
+    </div>
+
+    <div class="field field--full">
+      <label>Joylashuv</label>
+      {{ form.location_name }}
+
+      <div class="loc-row" style="margin-top:10px;">
+        <button type="button" class="btn btn--dark">📍 Xarita orqali tanlash</button>
+      </div>
+
+      <div class="map-box">📍 Xarita UI (keyin JS bilan ulanadi)</div>
+    </div>
+
+    <div class="field field--full">
+      <label>Aloqa usuli (UI)</label>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <label class="contact-option"><input type="checkbox"> 📞 Telefon</label>
+        <label class="contact-option"><input type="checkbox"> 💬 Direct</label>
+      </div>
+    </div>
+
+    <div class="field field--full">
+      <button class="btn btn--red" style="width:100%;">E’lonni joylash</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% load static %}
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Nazarbek Market{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'dashboard.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+<header class="header">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar__inner">
+      <div class="topbar__left">
+        <a class="btn btn--red" href="{% url 'product_create' %}">+ E’lon berish</a>
+      </div>
+
+      <a class="brand" href="{% url 'dashboard' %}">NAZARBEK MARKET</a>
+
+      <div class="topbar__right">
+        <a class="btn btn--dark" href="{% url 'cart' %}">
+          🛒 Savat <span class="badge">{{ cart_count|default:0 }}</span>
+        </a>
+        <a class="btn btn--red" href="{% url 'logout' %}">Logout</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBNAV -->
+  <nav class="subnav">
+    <div class="subnav__inner">
+      <a class="subnav__item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"
+         href="{% url 'dashboard' %}">🏠 Asosiy</a>
+
+      <a class="subnav__item {% if request.resolver_match.url_name == 'search' %}active{% endif %}"
+         href="{% url 'search' %}">🔍 Qidirish</a>
+
+      <a class="subnav__item {% if request.resolver_match.url_name == 'chats' %}active{% endif %}"
+         href="{% url 'chat_list' %}">💬 Chat</a>
+
+      <a class="subnav__item {% if request.resolver_match.url_name == 'favorites' %}active{% endif %}"
+         href="{% url 'favorites' %}">❤️ Saqlangan</a>
+
+      <a class="subnav__item {% if request.resolver_match.url_name == 'profile' %}active{% endif %}"
+         href="{% url 'profile' %}">👤 Profil</a>
+    </div>
+  </nav>
+</header>
+
+<main class="page">
+  <!-- LEFT CONTENT -->
+  <section class="main {% block main_class %}{% endblock %}">
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
+  </section>
+
+  <!-- RIGHT SIDEBAR: faqat dashboard’da -->
+  {% block sidebar %}
+  {% if request.resolver_match.url_name == 'dashboard' %}
+  <aside class="sidebar" aria-label="Kategoriyalar">
+    <h3 class="sidebar__title">KATEGORIYALAR</h3>
+    <ul class="category-list">
+      <li><a href="?category=elektronika">📱 Elektronika</a></li>
+      <li><a href="?category=kiyim">👕 Kiyim-kechak</a></li>
+      <li><a href="?category=avto">🚗 Avtomobil</a></li>
+      <li><a href="?category=uy">🏠 Uy-joy</a></li>
+      <li><a href="?category=texnika">🖥 Texnika</a></li>
+      <li><a href="?category=xizmat">🛠 Xizmatlar</a></li>
+      <li><a href="?category=boshqa">📦 Boshqalar</a></li>
+    </ul>
+  </aside>
+  {% endif %}
+  {% endblock %}
+</main>
+</body>
+</html>

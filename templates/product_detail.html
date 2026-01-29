@@ -1,0 +1,133 @@
+{% extends "dashboard.html" %}
+{% block title %}{{ product.title }}{% endblock %}
+
+{% block content %}
+<div class="detail">
+
+  <!-- LEFT COLUMN -->
+  <div class="detail__main">
+
+    <!-- PRODUCT CARD -->
+    <div class="olx-card">
+      <div class="olx-media">
+        {% if product.image %}
+          <img class="olx-img" src="{{ product.image.url }}" alt="{{ product.title }}">
+        {% else %}
+          <div class="olx-img"></div>
+        {% endif %}
+      </div>
+
+      <div class="olx-card__info">
+        <div class="olx-title">{{ product.title }}</div>
+        <div class="olx-price">{{ product.price }} so‘m</div>
+        <div class="olx-meta">
+          👤 {{ product.owner.username }}
+          <span class="dot">•</span>
+          📍 {{ product.location_name|default:"Joylashuv yo‘q" }}
+        </div>
+        <div class="olx-desc">{{ product.description }}</div>
+      </div>
+    </div>
+
+    <!-- COMMENTS LIST -->
+    <div class="block" style="margin-top:16px;">
+      <div class="block__head"><h3>Sharhlar</h3></div>
+
+      {% if comments %}
+        {% for c in comments %}
+          <div class="comment">
+            <div class="comment__top">
+              <strong>{{ c.user.username }}</strong>
+              <span>•</span>
+              <span>{{ c.created_at|date:"d M H:i" }}</span>
+            </div>
+
+            <div class="comment__text">{{ c.text }}</div>
+
+            {% if request.user.is_authenticated and request.user.id == c.user_id %}
+              <div style="display:flex; gap:8px; margin-top:8px;">
+                <a class="btn btn--dark" href="{% url 'edit_comment' c.id %}">✏️ Edit</a>
+                <a class="btn btn--red" href="{% url 'delete_comment' c.id %}">🗑 O‘chirish</a>
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% else %}
+        <div style="opacity:.7;">Hozircha sharh yo‘q.</div>
+      {% endif %}
+    </div>
+
+    <!-- ADD COMMENT -->
+    {% if request.user.is_authenticated and request.user != product.owner %}
+      <form method="post"
+            action="{% url 'add_comment' product.id %}"
+            class="block"
+            style="margin-top:12px;">
+        {% csrf_token %}
+        <div class="block__head"><h3>Sharh yozish</h3></div>
+
+        <textarea name="text"
+                  required
+                  placeholder="Sharhingizni yozing..."
+                  style="width:100%;"></textarea>
+
+        <button class="btn btn--yellow" style="margin-top:10px;">
+          💬 Yuborish
+        </button>
+      </form>
+    {% elif request.user == product.owner %}
+      <div class="block" style="margin-top:12px; opacity:.7;">
+        O‘z e’loningizga sharh yozib bo‘lmaydi.
+      </div>
+    {% endif %}
+
+  </div>
+
+  <!-- RIGHT COLUMN -->
+  <aside class="detail__side">
+
+    <!-- LOCATION -->
+    <div class="block">
+      <div class="block__head"><h3>Joylashuv</h3></div>
+
+      <div class="location-box">
+        <div class="location-map">
+          <div class="location-text">
+            📍 {{ product.location_name|default:"Joylashuv yo‘q" }}<br>
+            <small>Xaritada ko‘rish</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="block" style="margin-top:12px;">
+
+      {% if request.user != product.owner %}
+        <a href="{% url 'cart_add' product.id %}"
+           class="btn btn--yellow"
+           style="width:100%; justify-content:center;">
+          🛒 Savatga qo‘shish
+        </a>
+      {% else %}
+        <div style="opacity:.7; text-align:center;">
+          Bu sizning e’loningiz
+        </div>
+      {% endif %}
+
+      <a href="{% url 'favorite_toggle' product.id %}"
+         class="btn {% if is_favorited %}btn--red{% else %}btn--dark{% endif %}"
+         style="width:100%; justify-content:center; margin-top:8px;">
+        {% if is_favorited %}
+          ✅ Saqlangan
+        {% else %}
+          ❤️ Saqlanganlarga qo‘shish
+        {% endif %}
+      </a>
+
+    </div>
+
+  </aside>
+
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "dashboard.html" %}
+{% block title %}Saqlanganlar{% endblock %}
+
+{% block content %}
+<h3 style="margin:0 0 12px;">❤️ Saqlanganlar</h3>
+
+{% if favorites %}
+  <div class="grid">
+    {% for f in favorites %}
+      {% with p=f.product %}
+      <div class="card">
+
+        {% if p.image %}
+          <img class="card__img" src="{{ p.image.url }}" alt="{{ p.title }}">
+        {% endif %}
+
+        <h3 class="card__title">{{ p.title }}</h3>
+        <div class="card__price">{{ p.price }} so‘m</div>
+        <div class="card__meta">👤 {{ p.owner.username }}</div>
+
+        <div class="card__actions">
+          <a class="btn btn--dark" href="{% url 'product_detail' p.id %}">
+            Ko‘rish
+          </a>
+
+          <form method="post" action="{% url 'favorite_toggle' p.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn--red">
+              ❌ Olib tashlash
+            </button>
+          </form>
+        </div>
+
+      </div>
+      {% endwith %}
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="muted">Hozircha saqlangan e’lon yo‘q.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "dashboard.html" %}
+
+{% block title %}Qidirish{% endblock %}
+
+{% block content %}
+<div class="form-card" style="max-width:none;">
+  <h2 style="margin:0 0 12px;">Qidirish</h2>
+
+  <form method="get" class="form-grid">
+    <div class="field field--full">
+      <label>So‘z bo‘yicha</label>
+      <input type="text" name="q" value="{{ q }}" placeholder="Masalan: iPhone, kamera, uy...">
+    </div>
+
+
+
+
+    <div class="field field--full">
+      <button class="btn btn--red" style="width:100%;">Qidirish</button>
+    </div>
+  </form>
+</div>
+
+<div style="height:14px;"></div>
+
+{% if products %}
+  <div class="grid">
+    {% for p in products %}
+      <a class="card card--link" href="{% url 'product_detail' p.id %}">
+        {% if p.image %}
+          <img class="card__img" src="{{ p.image.url }}" alt="{{ p.title }}">
+        {% else %}
+          <div class="card__img"></div>
+        {% endif %}
+
+        <h3 class="card__title">{{ p.title }}</h3>
+        <div class="card__price">{{ p.price }} so‘m</div>
+        <div class="card__meta">👤 {{ p.owner.username }} • {{ p.created_at|date:"d M" }}</div>
+      </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="block">
+    <b>Natija yo‘q.</b>
+    <div style="opacity:.75; margin-top:6px;">Boshqa so‘z bilan urinib ko‘ring.</div>
+  </div>
+{% endif %}
+{% endblock %}

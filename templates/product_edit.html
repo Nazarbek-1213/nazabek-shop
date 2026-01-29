@@ -1,0 +1,16 @@
+{% extends "dashboard.html" %}
+{% block title %}Edit{% endblock %}
+
+{% block content %}
+<div class="form-card">
+  <h2 style="margin:0 0 12px;">Edit: {{ product.title }}</h2>
+
+  <form method="post" enctype="multipart/form-data" class="form-grid">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="field field--full">
+      <button class="btn btn--red" style="width:100%;">Saqlash</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "dashboard.html" %}
+{% block title %}Sharhni tahrirlash{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width:700px;">
+  <div class="form-card">
+    <h3 style="margin-top:0;">✏️ Sharhni tahrirlash</h3>
+
+    <form method="post">
+      {% csrf_token %}
+      <textarea name="text" required style="width:100%;">{{ comment.text }}</textarea>
+
+      <div style="display:flex; gap:10px; margin-top:12px;">
+        <a class="btn btn--dark" href="{% url 'product_detail' comment.product_id %}" style="flex:1; justify-content:center;">
+          Bekor
+        </a>
+        <button class="btn btn--red" style="flex:1; justify-content:center;">
+          Saqlash
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
